@@ -1,0 +1,26 @@
+# Python virtual environment
+venv/
+/venv/
+
+# IDE specific folders
+.idea/
+/.idea/
+
+# Node.js dependencies
+node_modules/
+/node_modules/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Other common ignores
+.env
+*.log
