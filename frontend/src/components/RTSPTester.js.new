@@ -1,0 +1,219 @@
+import React, { useState } from 'react';
+import HikvisionStreamViewer from './HikvisionStreamViewer';
+import './RTSPTester.css';
+
+const RTSPTester = () => {
+  const [rtspUrl, setRtspUrl] = useState('rtsp://admin:Fidelis12@103.21.79.245:554/Streaming/Channels/101');
+  const [cameraName, setCameraName] = useState('Test Camera');
+  const [showStream, setShowStream] = useState(false);
+  const [error, setError] = useState('');
+  const [resolution, setResolution] = useState('medium');
+  const [codec, setCodec] = useState('auto');
+  const [alternativeUrls, setAlternativeUrls] = useState([
+    'rtsp://admin:Fidelis12@103.21.79.245:554/Streaming/Channels/401',
+    'rtsp://admin:Fidelis12@103.21.79.245:554/Streaming/Channels/102',
+    'rtsp://admin:Fidelis12@103.21.79.245:554/Streaming/Channels/201'
+  ]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Validate RTSP URL
+    if (!rtspUrl.startsWith('rtsp://')) {
+      setError('Please enter a valid RTSP URL starting with rtsp://');
+      setShowStream(false);
+      return;
+    }
+    
+    setError('');
+    setShowStream(true);
+  };
+
+  const stopStream = () => {
+    setShowStream(false);
+  };
+
+  const tryAlternativeUrl = (url) => {
+    setRtspUrl(url);
+    setShowStream(true);
+  };
+
+  return (
+    <div className="rtsp-tester">
+      <h2>RTSP Stream Tester</h2>
+      <p className="page-description">Test your Hikvision camera streams with different codecs and resolutions</p>
+      
+      <div className="card">
+        <div className="card-header">
+          <h3 className="card-title">Enter RTSP URL</h3>
+        </div>
+        
+        <form onSubmit={handleSubmit} className="rtsp-form">
+          <div className="form-group">
+            <label className="form-label">Camera Name</label>
+            <input
+              type="text"
+              className="form-control"
+              value={cameraName}
+              onChange={(e) => setCameraName(e.target.value)}
+              placeholder="Enter a name for this camera"
+              required
+            />
+          </div>
+          
+          <div className="form-group">
+            <label className="form-label">RTSP URL</label>
+            <input
+              type="text"
+              className="form-control"
+              value={rtspUrl}
+              onChange={(e) => setRtspUrl(e.target.value)}
+              placeholder="rtsp://username:password@ip_address:port/channel"
+              required
+            />
+            <small className="form-text">
+              Hikvision Format Examples:
+              <ul>
+                <li>Main Stream (H.264): <code>rtsp://admin:password@ip:554/Streaming/Channels/101</code></li>
+                <li>Sub Stream (H.264): <code>rtsp://admin:password@ip:554/Streaming/Channels/102</code></li>
+                <li>Main Stream (H.265): <code>rtsp://admin:password@ip:554/Streaming/Channels/401</code></li>
+                <li>Sub Stream (H.265): <code>rtsp://admin:password@ip:554/Streaming/Channels/402</code></li>
+              </ul>
+            </small>
+          </div>
+          
+          <div className="form-group">
+            <label className="form-label">Resolution</label>
+            <div className="radio-buttons">
+              <label>
+                <input
+                  type="radio"
+                  name="resolution"
+                  value="low"
+                  checked={resolution === 'low'}
+                  onChange={() => setResolution('low')}
+                />
+                Low (360p)
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="resolution"
+                  value="medium"
+                  checked={resolution === 'medium'}
+                  onChange={() => setResolution('medium')}
+                />
+                Medium (480p)
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="resolution"
+                  value="high"
+                  checked={resolution === 'high'}
+                  onChange={() => setResolution('high')}
+                />
+                High (720p)
+              </label>
+            </div>
+          </div>
+          
+          <div className="form-group">
+            <label className="form-label">Codec</label>
+            <div className="radio-buttons">
+              <label>
+                <input
+                  type="radio"
+                  name="codec"
+                  value="auto"
+                  checked={codec === 'auto'}
+                  onChange={() => setCodec('auto')}
+                />
+                Auto-detect
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="codec"
+                  value="h264"
+                  checked={codec === 'h264'}
+                  onChange={() => setCodec('h264')}
+                />
+                H.264
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="codec"
+                  value="h265"
+                  checked={codec === 'h265'}
+                  onChange={() => setCodec('h265')}
+                />
+                H.265/HEVC
+              </label>
+            </div>
+          </div>
+          
+          {error && (
+            <div className="error-message">
+              <span className="material-icons">error</span>
+              {error}
+            </div>
+          )}
+          
+          <div className="form-actions">
+            <button type="submit" className="btn btn-primary">
+              {showStream ? 'Update Stream' : 'View Stream'}
+            </button>
+            {showStream && (
+              <button 
+                type="button" 
+                className="btn btn-secondary"
+                onClick={stopStream}
+              >
+                Stop Stream
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
+      
+      {showStream && (
+        <div className="card stream-card">
+          <div className="card-header">
+            <h3 className="card-title">{cameraName}</h3>
+            <div className="stream-actions">
+              <button className="btn btn-sm btn-info" onClick={() => window.open(`http://127.0.0.1:8080/api/mjpeg?url=${encodeURIComponent(rtspUrl)}&resolution=${resolution}&codec=${codec}`, '_blank')}>
+                Open MJPEG Stream
+              </button>
+            </div>
+          </div>
+          <div className="stream-container">
+            <HikvisionStreamViewer 
+              rtspUrl={rtspUrl}
+              cameraName={cameraName}
+            />
+          </div>
+          <div className="card-footer">
+            <div className="alternative-streams">
+              <h4>Try Alternative Channels:</h4>
+              <div className="alternative-buttons">
+                {alternativeUrls.map((url, index) => (
+                  <button 
+                    key={index} 
+                    className="btn btn-sm btn-outline-primary"
+                    onClick={() => tryAlternativeUrl(url)}
+                  >
+                    Channel {url.split('/').pop()} {url.includes('/4') ? '(H.265)' : '(H.264)'}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default RTSPTester;

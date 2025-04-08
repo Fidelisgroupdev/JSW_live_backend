@@ -1,0 +1,15 @@
+{
+  "name": "rtsp-proxy-server",
+  "version": "1.0.0",
+  "description": "RTSP to WebRTC proxy for CementTrack",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "rtsp-relay": "^1.7.0",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "ws": "^8.13.0"
+  }
+}

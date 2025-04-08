@@ -1,0 +1,265 @@
+.hikvision-stream-viewer {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  background-color: #fff;
+}
+
+.stream-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+}
+
+.stream-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.stream-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.control-group label {
+  font-size: 0.9rem;
+  color: #555;
+  white-space: nowrap;
+}
+
+.resolution-selector,
+.codec-selector,
+.transport-selector {
+  display: flex;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+}
+
+.resolution-btn,
+.codec-btn,
+.transport-btn,
+.advanced-mode-btn {
+  background-color: #f8f8f8;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.resolution-btn:hover,
+.codec-btn:hover,
+.transport-btn:hover,
+.advanced-mode-btn:hover {
+  background-color: #e9e9e9;
+}
+
+.resolution-btn.active,
+.codec-btn.active,
+.transport-btn.active,
+.advanced-mode-btn.active {
+  background-color: #4285f4;
+  color: white;
+}
+
+.advanced-mode-btn {
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  font-weight: bold;
+}
+
+.advanced-mode-btn.active {
+  background-color: #34a853;
+}
+
+.status-indicator {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status-indicator.connecting {
+  background-color: #ffd700;
+  color: #333;
+}
+
+.status-indicator.streaming {
+  background-color: #34a853;
+  color: white;
+}
+
+.status-indicator.error {
+  background-color: #ea4335;
+  color: white;
+}
+
+.status-indicator.idle {
+  background-color: #9aa0a6;
+  color: white;
+}
+
+.stream-container {
+  position: relative;
+  width: 100%;
+  background-color: #000;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stream-container img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+.stream-container img.hidden {
+  display: none;
+}
+
+.stream-loading,
+.stream-error {
+  color: white;
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.stream-loading .spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid white;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.stream-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.stream-error button {
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 5px;
+  font-size: 0.9rem;
+}
+
+.stream-error button:hover {
+  background-color: #3367d6;
+}
+
+.debug-info {
+  padding: 10px 15px;
+  background-color: #f8f8f8;
+  border-top: 1px solid #ddd;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.debug-info details {
+  margin-bottom: 10px;
+}
+
+.debug-info summary {
+  cursor: pointer;
+  color: #4285f4;
+  font-weight: bold;
+}
+
+.debug-info p {
+  margin: 5px 0;
+  word-break: break-all;
+}
+
+/* Advanced mode styles */
+.advanced-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 10px 15px;
+  background-color: #f0f4f8;
+  border-bottom: 1px solid #ddd;
+}
+
+.advanced-control-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.advanced-control-group label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+}
+
+.advanced-control-group input[type="checkbox"] {
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Stream stats overlay */
+.stream-stats {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 10;
+}
+
+.stats-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.stats-label {
+  font-weight: bold;
+  color: #8ab4f8;
+}
+
+.stats-value {
+  color: #ffffff;
+}
