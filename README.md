@@ -107,3 +107,21 @@ You need to run three separate processes, ideally in different terminal windows/
 
 *   Open your web browser and navigate to the URL provided by the React frontend development server (usually `http://localhost:3000/`).
 *   The frontend will interact with the Django backend API (running on port 8000) and the Node.js RTSP proxy (running on port 9999) as needed.
+
+## Example Hikvision RTSP URLs (Camera at 103.21.79.245)
+
+These are example URLs based on common Hikvision conventions and user input. Credentials and specific channel availability may vary.
+
+*   **Main Stream (H.264/H.265):** `rtsp://admin:Fidelis12@103.21.79.245:554/Streaming/Channels/101`
+*   **Sub Stream (H.264/H.265):** `rtsp://admin:Fidelis12@103.21.79.245:554/Streaming/Channels/102`
+*   **Third Stream (User Provided):** `rtsp://admin:Fidelis12@103.21.79.245:554/Streaming/Channels/302`
+*   **Third Stream (Common Convention):** `rtsp://admin:Fidelis12@103.21.79.245:554/Streaming/Channels/301`
+*   **HEVC/H.265 Main Stream:** `rtsp://admin:Fidelis12@103.21.79.245:554/Streaming/Channels/401`
+*   **HEVC/H.265 Sub Stream:** `rtsp://admin:Fidelis12@103.21.79.245:554/Streaming/Channels/402`
+*   **(Other potential channels based on previous user input, purpose may vary):**
+    *   `rtsp://admin:Fidelis12@103.21.79.245:554/Streaming/Channels/201`
+    *   `rtsp://admin:Fidelis12@103.21.79.245:554/Streaming/Channels/501`
+    *   `rtsp://admin:Fidelis12@103.21.79.245:554/Streaming/Channels/601`
+    *   `rtsp://admin:Fidelis12@103.21.79.245:554/Streaming/Channels/701`
+
+**Note:** Channel 101/102 are typically standard H.264/H.265, while 401/402 are often specifically for H.265/HEVC. The user provided channel 302 for the third stream at this IP; the standard third stream is often 301. Other channel purposes may vary based on camera model and configuration.
